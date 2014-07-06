@@ -6,15 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Git commit 之注释的技巧 | H!Grid博客镜像站点</title>
+<title>git常用操作命令 | H!Grid博客镜像站点</title>
 <meta name="author" content="higrid">
 
-<meta name="description" content="Git 本身并没有硬性限制注释的格式，不过，对于多人参与的项目来说， 好的注释风格更加有利于团队合作。 即使是自己用，也应当坚持实用好的注释风格， 一来是对自己的工作历史负责，二来得以养成好的注释习惯。 虽然这里标题说的是 Git，其他源代码控制系统也可以参考的。">
+<meta name="description" content="一开始GIT给人感觉很简单，但一用起来又觉得每个地方都捉襟见肘。其实git的学习曲线要比想象中的更为陡峭，有近20个常用命令，每个命令又有20个左右常用的参数，相互组合使用。要学好的话学习量绝对不低于新学一门语言和其常用类库，因其大多数操作都有相近的实现方式，但结果又各不相同，本篇是higrid收集的一些相关网络教程，以由易向难的顺序介绍。">
 
-<meta name="keywords" content="git, git注释, git commit">
+<meta name="keywords" content="git, git资源, git工具">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<meta property="og:title" content="Git commit 之注释的技巧"/>
+<meta property="og:title" content="git常用操作命令"/>
 <meta property="og:site_name" content="H!Grid博客镜像站点"/>
 
 <!--[if IE]><style>.testIE.IE{display:inline;}</style><![endif]-->
@@ -100,62 +100,77 @@
   <div class="post-content">
     <header class="well-sm">
       <i class="fa icon fa-5x pull-left"></i>
-      <h1 class="title">Git commit 之注释的技巧</h1>
+      <h1 class="title">git常用操作命令</h1>
       
-        <span>发表于<time datetime="2014-06-30T04:28:24.000Z"> <a href="/posts/git-commit-skills.html">2014-06-30</a></time></span>      
+        <span>发表于<time datetime="2014-07-03T11:41:11.000Z"> <a href="/posts/git-concise-guide-tutorial.html">2014-07-03</a></time></span>      
     </header>
     
     <section id='before_content_widget'></section>
     <div class="entry">
       
-        <p>Git 本身并没有硬性限制注释的格式，不过，对于多人参与的项目来说， 好的注释风格更加有利于团队合作。 即使是自己用，也应当坚持实用好的注释风格， 一来是对自己的工作历史负责，二来得以养成好的注释习惯。 虽然这里标题说的是 Git，其他源代码控制系统也可以参考的。 </p>
+        <p>一开始GIT给人感觉很简单，但一用起来又觉得每个地方都捉襟见肘。其实git的学习曲线要比想象中的更为陡峭，有近20个常用命令，每个命令又有20个左右常用的参数，相互组合使用。要学好的话学习量绝对不低于新学一门语言和其常用类库，因其大多数操作都有相近的实现方式，但结果又各不相同，本篇是higrid收集的一些相关网络教程，以由易向难的顺序介绍。 </p>
 <a id="more"></a>
 
-<h2 id="Git_commit_提交注释信息的作用">Git commit 提交注释信息的作用</h2>
-<ul>
-<li>加快 Reviewing Code 的过程</li>
-<li>帮助我们写好 release note</li>
-<li>N年后帮你快速想起来某个分支，tag 或者 commit 增加了什么功能，改变了哪些代码</li>
-<li>让其他的开发者在运行 git blame 的时候想跪谢</li>
-<li>总之一个好的提交信息，会帮助你提高项目的整体质量</li>
-</ul>
-<h2 id="Git注释的基本要求">Git注释的基本要求</h2>
-<p>简而言之：第一行一句话改过你做的修改(少于50个字)、第二行空行、剩余行请描述为什么你做的这些改动是好的。</p>
-<h3 id="commit_第一行题目">commit 第一行题目</h3>
-<p>可以写成：<code>Fix issue #8976</code> (使用 fix, add, change )<br>或者：</p>
-<pre><code>    Mod: remove unused code, 表示修改（Modify）
-    Add: a new module to have faster process, 表示新增（Add）
-    Rem: deprecate unused modules, 表示移除（Remove）
-    Ref: improved the implementation of module X, 表示重构（Refactory）
-</code></pre><p>如果一个<strong>Git commit</strong> 里的内容无法用上述任意一种语句陈述，应该怎么办？那说明你的commit应该被拆分成多个小部分。 估计很多开始使用 git 的同学把握不住什么时候应该 commit， 什么时候又应该把未提交的 commits 都 push 上去，一般 ： 提交描述 = 提交的修改，这样提交的描述才精准。 git 的提交描述可以是多行的，描述的内容可以非常详细， 在不填写描述的情况下提交 git 弹出的这个对话框就介绍了这一点。</p>
-<p>因此请将每次提交限定于完成一次逻辑功能。并且可能的话，适当地分解为多次小更新，以便每次小型提交都更易于理解。commit 是一次目的性明确的改动， 但改动的地方不宜过多（否则看起来会晕）， 我们应该将一个功能分解为几个 commit， 一个 commit 负责一个部分的改动， 当这几个 commit 都完成了再 push。这样做是因为没有 push 上去的提交保存在本地， 万一有什么当时没想好的，还可以修改 （未 push 的 commit 是有办法修改的，后续文章会讲）， 要是 push 上去了，最好就不要改了， 而是用新的 commit 来弥补 （git 允许冲掉以前 push 的变更：git push -f）。照以上的建议来做的话，可以保证每个 commit 的质量，以致提高每个功能的质量。</p>
-<h3 id="commit_第三行及后续剩余行">commit 第三行及后续剩余行</h3>
-<p>永远别忘了第2行是空行。第三行开始主要回答如下信息:</p>
+<h2 id="Git工作原理:">Git工作原理:</h2>
 <ol>
-<li>为什么这次修改是必要的？ 要告诉 Reviewers，你的提交包含什么改变。让他们更容易审核代码和忽略无关的改变。</li>
-<li>如何解决的问题？</li>
-<li>这些变化可能影响哪些地方？</li>
+<li>分布式,每个克隆或更新远程仓库的用户都拥有一份最新的完整的仓库。</li>
+<li>分支结构,不要直接操作<code>remote</code>的远程分支,应该首先<code>checkout</code>一份到本地分支。远程分支是指与远程仓库上同步的分支。而你所有的操作应该是在你的本地分支上操作。</li>
+<li>时刻记得你在那个分支下工作,因为你切换到任何分支都不会改变本地目录</li>
+<li><code>origin</code>代表远程仓库,为默认的远程仓库别名</li>
+<li><strong>git</strong>的分支仅仅是一个提交的标记,而不是目录,与svn的目录式分支结构不同</li>
+<li>仓库的意义是整个代码仓库,本地分支/远程分支,都是你本地仓库中的分支</li>
 </ol>
-<p>这是你最需要回答的问题。因为它会帮你发现在某个 branch 或 commit 中的做了过多的改动。一个提交尽量只做1，2个变化。 你的团队应该有一个自己的行为规则，规定每个 commit 和 branch 最多能含有多少个功能修改。用 Line break 来分割提交信息，让它在某些软件里面更容易读<br>不用 <code>git commit</code> 上增加 <code>-m &lt;msg&gt;</code> 或 <code>--message=&lt;msg&gt;</code> 参数，而单独写提交信息。 一个推荐的 commit message 应该是这样：</p>
-<pre><code>Redirect user to the requested page after login
-
-https://www.higrid.net/
-
-Users were being redirected to the home page after login, which is less
-useful than redirecting to the page they had originally requested before
-being redirected to the login form.
-
-* Store requested path in a session variable
-* Redirect to the stored location after successfully logging in the user
-</code></pre><p>注释最好包含一个连接指向你们项目的 issue/story/card。一个完整的连接比一个 issue numbers 更好<br>提交信息中包含一个简短的故事，能让别人更容易理解你的项目</p>
-<h2 id="修改已经git_commit的注释信息">修改已经git commit的注释信息</h2>
-<p>首先，使用下面这个命令来设置git默认的编辑器，其中的“editor”替换成你自己的编辑器，如Vim、Emacs、gedit、subl等：</p>
-<pre><code>git config --global core.editor &quot;editor -w&quot;
-</code></pre><p>然后，在做提交的时候使用命令不要写”-m”参数，直接写成git commit这样子就行，这样就会自动打开你刚才指定的编辑器，你可以在里面添加大段注释。 设置使用vim编辑，git config —global core.editor vim</p>
-<ul>
-<li>执行’git commit --amend’ 修改最后一次提交的信息</li>
-<li>执行’git push origin +master:master’ 强制更新远程服务器上的commit 尽量慎用此方法</li>
-</ul>
+<h2 id="Git常用操作命令及解释">Git常用操作命令及解释</h2>
+<p>注:以下所有以<code>$</code>开头的,为命令行操作,<code>$</code>之后的是命令, <code>#</code>号之后是注释</p>
+<p>1.克隆一个仓库</p>
+<pre><code>$ git clone git@github.com:sheyi/higrid.git#相当于svn checkout
+</code></pre><p>然后进入仓库目录,运行如下命令来忽略git对于文件权限的检查</p>
+<pre><code>$ git config core.filemode false
+</code></pre><p>然后设置你的帐户和邮箱</p>
+<pre><code>$ git config user.name = &quot;higrid&quot;
+$ git config user.email = &quot;info@higrid.net&quot;
+</code></pre><p>2.抽取一个分支以及切换到一个分支(切记,要得到一个分支,应该先抽取它,把它抽取到<br>本地,生成一个本地分支) 命令格式 <code>git checkout 本地分支名 origin/远程分支名</code>,通常,本地分支名和远程分支名一样,当然,也可以不一样。</p>
+<pre><code>$ git checkout release/0.2 origin/release/0.2
+$ git checkout master origin/master
+$ git checkout master #切换分支也是使用checkout,只不过不再输入远程分支信息
+</code></pre><p>3.查看分支,注意,*号在那个分支名前面,就说明你目前处在那个分支下。<br> 查看本地分支:</p>
+<pre><code>$ git branch
+</code></pre><p>查看所有分支,包括你仓库中的远程分支:</p>
+<pre><code>$ git branch -a
+</code></pre><p>更新你本地仓库的所有分支和远程仓库的分支保持一致,主要是删掉本地仓库中与远程仓库相比较,已经不存在的分支:</p>
+<pre><code>$ git remote prune origin
+</code></pre><p>4.本地仓库分支的创建和删除</p>
+<pre><code>$ git branch 分支名 #创建一个本地分支
+$ git branch -d 分支名 #删除一个本地分支,参数 -D 强制删除,删除前要先切换到其它分支
+</code></pre><p>5.更新仓库但不将修改合并分支的修改</p>
+<pre><code>$ git fetch
+</code></pre><p>6.更新仓库且将修改合并到本地分支,这个最常用,相当于svn up</p>
+<pre><code>$ git pull
+</code></pre><p>7.查看状态,是否有提交,删除,更新等信息,如果看到大批文件权限有更新,请使用“git config core.filemode false” 来忽略权限检查</p>
+<pre><code>$ git status
+</code></pre><p>8.提交,注意:提交仅仅是将你的修改提交到你本地的仓库,而非远程</p>
+<pre><code>$ git commit -m ”提交注释&quot;
+</code></pre><p>如果之前未使用 git add 将修改的文件加入暂存区,可再加一个参数 -a 来将所有未暂存的修改提交</p>
+<p>9.推送到远程仓库,只有将你的修改或分支推送到远程仓库,其它人才能从该远程仓库获取</p>
+<pre><code>$ git push origin #推送当前分支到远程仓库,前提是远程仓库有这个分支
+$ git remote add origin git@server-name:path/repo-name.git 要关联一个远程库
+$ git push -u origin master #第一次推送master分支的所有内容， 此后就可以使用命令git push origin master推送最新修改；
+</code></pre><p>10.删除远程仓库中的分支</p>
+<pre><code>$ git push origin :远程分支名
+$ git push origin --delete &lt;branchName&gt;
+$ git push origin --delete tag &lt;tagname&gt;
+</code></pre><h2 id="Git工作流程">Git工作流程</h2>
+<ol>
+<li>生成你的公钥和私钥,将公钥发给git仓库管理员</li>
+<li>克隆一个仓库</li>
+<li>检出一个远程分支到本地分支</li>
+<li>在本地分支上进行开发工作并提交</li>
+<li>将你的提交推送到远程仓库</li>
+<li>要经常更新你的本地分支 <code>git pull</code></li>
+<li>对于开发人员，不要在develop分支上直接开发，创建feature分支并publish协同开发。</li>
+<li>对于开发人员，要经常合并常规开发分支develop到你的feature分支上，以降低冲突的积累。</li>
+<li>第7、8条参照git-flow分支模型来规划。</li>
+</ol>
 
       
     </div>
@@ -165,15 +180,15 @@ being redirected to the login form.
 <div class="panel panel-success">
     <div class="panel-heading" align="center">希望本站内容对您有点用处,有什么疑问或建议请在后面留言评论</div>
     <div align="center" class="panel-body">若无特别注明，本站内容均属原创,转载请注明作者(<a href="http://higrid.net">higrid</a>)和出处 <a href="http://blog.higrid.net">H!Grid博客镜像站点</a> ，请勿用于任何商业用途</div>
-    <div class="panel-body">本文链接: <a href="/posts/git-commit-skills.html">Git commit 之注释的技巧</a></div>
+    <div class="panel-body">本文链接: <a href="/posts/git-concise-guide-tutorial.html">git常用操作命令</a></div>
 </div></div><div class="widget" id="widget_after_content_ujian>">
 <div class="ujian-hook"></div>
 </div></section>
     
     
         <footer id="post-meta">
-        <div class="categories" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" style="display:inline">归类<span class="breadcrumb fa fa-folder"><li><a href="/categories/知识总结/" itemprop="url"><span itemprop="title" >知识总结</span></a></li></span></div> | <span class="tags">标签 <a href="/tags/git/" class="label label-primary" itemprop="url"><span itemprop="title">git</span></a></span> | <span class="time">最近更新:<time title="2014-07-05 18:56:37"datetime="2014-07-05 18:56:37"> 2014-07-05</time></span> | <span class="comment-link">
-<a href="http://blog.higrid.net/posts/git-commit-skills.html#comments" id="uyan_count_unit" su="git-commit-skills">暂无评论</a>
+        <div class="categories" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" style="display:inline">归类<span class="breadcrumb fa fa-folder"><li><a href="/categories/知识总结/" itemprop="url"><span itemprop="title" >知识总结</span></a></li></span></div> | <span class="tags">标签 <a href="/tags/git/" class="label label-primary" itemprop="url"><span itemprop="title">git</span></a><a href="/tags/github/" class="label label-success" itemprop="url"><span itemprop="title">github</span></a></span> | <span class="time">最近更新:<time title="2014-07-05 18:56:37"datetime="2014-07-05 18:56:37"> 2014-07-05</time></span> | <span class="comment-link">
+<a href="http://blog.higrid.net/posts/git-concise-guide-tutorial.html#comments" id="uyan_count_unit" su="git-concise-guide-tutorial">暂无评论</a>
 </span>
         </footer>
     
@@ -186,13 +201,13 @@ being redirected to the login form.
     <section id='after_post_widget'><div class="widget" id="widget_after_post_post_pageNav>">
 <ul class="pager">
   
-  <li class="previous"><a href="/posts/git-concise-guide-tutorial.html" title="git常用操作命令">&larr; git常用操作命令</a></li>
+  <li class="previous"><a href="/posts/install-composer-on-windows.html" title="在Windows系统中安裝使用composer">&larr; 在Windows系统中安裝使用composer</a></li>
   
   
-  <li class="next"><a href="/posts/markdown-tools-and-resources.html" title="markdown格式在日常中的使用及转化">markdown格式在日常中的使用及转化 &rarr;</a></li>
+  <li class="next"><a href="/posts/git-commit-skills.html" title="Git commit 之注释的技巧">Git commit 之注释的技巧 &rarr;</a></li>
   
 </ul></div><div class="widget" id="widget_after_post_related_posts>">
-<ul class="list-group"><li class="list-group-item"><a href="/posts/git-concise-guide-tutorial.html">git常用操作命令</a></li><li class="list-group-item"><a href="/posts/markdown-tools-and-resources.html">markdown格式在日常中的使用及转化</a></li><li class="list-group-item"><a href="/posts/how-to-use-index-match-in-excel.html">excel中index match用法</a></li><li class="list-group-item"><a href="/posts/the-advantage-of-vim.html">vim的优秀之处在哪里</a></li><li class="list-group-item"><a href="/posts/git-commit-skills.html">Git commit 之注释的技巧</a></li><li class="list-group-item"><a href="/posts/php-history-overview.html">简单明了php版本历史</a></li><li class="list-group-item"><a href="/posts/install-composer-on-windows.html">在Windows系统中安裝使用composer</a></li></ul></div></section>    
+<ul class="list-group"><li class="list-group-item"><a href="/posts/git-concise-guide-tutorial.html">git常用操作命令</a></li><li class="list-group-item"><a href="/posts/how-to-use-index-match-in-excel.html">excel中index match用法</a></li><li class="list-group-item"><a href="/posts/the-advantage-of-vim.html">vim的优秀之处在哪里</a></li><li class="list-group-item"><a href="/posts/git-commit-skills.html">Git commit 之注释的技巧</a></li><li class="list-group-item"><a href="/posts/php-history-overview.html">简单明了php版本历史</a></li><li class="list-group-item"><a href="/posts/markdown-tools-and-resources.html">markdown格式在日常中的使用及转化</a></li><li class="list-group-item"><a href="/posts/install-composer-on-windows.html">在Windows系统中安裝使用composer</a></li></ul></div></section>    
 	<div id="comments">
 <!-- UY BEGIN -->
 <div id="uyan_frame"></div>
@@ -257,8 +272,8 @@ being redirected to the login form.
         <script src="http://cdn.staticfile.org/twitter-bootstrap/3.1.0/js/bootstrap.min.js"></script>        
             <script type="text/javascript">
 var uyan_config={
-     'url':'http://blog.higrid.net/posts/git-commit-skills.html',
-'su':'git-commit-skills'
+     'url':'http://blog.higrid.net/posts/git-concise-guide-tutorial.html',
+'su':'git-concise-guide-tutorial'
 };
 _js2load.push({src:'http://v2.uyan.cc/code/uyan.js?uid=1600048'});
 </script>
@@ -267,9 +282,9 @@ _js2load.push({src:'http://v2.uyan.cc/code/uyan.js?uid=1600048'});
             <!--wumii_relatedItems-->
 
 <script type="text/javascript">
-    var wumiiPermaLink = "http://blog.higrid.net/posts/git-commit-skills.html";
-    var wumiiTitle = "Git commit 之注释的技巧";
-    var wumiiTags = "git";
+    var wumiiPermaLink = "http://blog.higrid.net/posts/git-concise-guide-tutorial.html";
+    var wumiiTitle = "git常用操作命令";
+    var wumiiTags = "git,github";
     var wumiiCategories = ["知识总结"];
     var wumiiSitePrefix = "http://blog.higrid.net";
     var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";

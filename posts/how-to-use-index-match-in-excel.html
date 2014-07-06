@@ -6,15 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Git commit 之注释的技巧 | H!Grid博客镜像站点</title>
+<title>excel中index match用法 | H!Grid博客镜像站点</title>
 <meta name="author" content="higrid">
 
-<meta name="description" content="Git 本身并没有硬性限制注释的格式，不过，对于多人参与的项目来说， 好的注释风格更加有利于团队合作。 即使是自己用，也应当坚持实用好的注释风格， 一来是对自己的工作历史负责，二来得以养成好的注释习惯。 虽然这里标题说的是 Git，其他源代码控制系统也可以参考的。">
+<meta name="description" content="在工作中，我们需要处理大量数据，查询与引用函数是非常常用一类函数，灵活的运用它们，可以提高工作效率。当需要在数据清单或表格中查找特定数值，或者需要查找某一单元格的引用时，可以使用查询和引用工作表函数。HiGrid采用简单的例子介绍这些函数的高级使用方法，非常容易理解index函数和match函数的使用方法">
 
-<meta name="keywords" content="git, git注释, git commit">
+<meta name="keywords" content="excel中index match用法">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<meta property="og:title" content="Git commit 之注释的技巧"/>
+<meta property="og:title" content="excel中index match用法"/>
 <meta property="og:site_name" content="H!Grid博客镜像站点"/>
 
 <!--[if IE]><style>.testIE.IE{display:inline;}</style><![endif]-->
@@ -100,62 +100,48 @@
   <div class="post-content">
     <header class="well-sm">
       <i class="fa icon fa-5x pull-left"></i>
-      <h1 class="title">Git commit 之注释的技巧</h1>
+      <h1 class="title">excel中index match用法</h1>
       
-        <span>发表于<time datetime="2014-06-30T04:28:24.000Z"> <a href="/posts/git-commit-skills.html">2014-06-30</a></time></span>      
+        <span>发表于<time datetime="2013-10-29T06:37:59.000Z"> <a href="/posts/how-to-use-index-match-in-excel.html">2013-10-29</a></time></span>      
     </header>
     
     <section id='before_content_widget'></section>
     <div class="entry">
       
-        <p>Git 本身并没有硬性限制注释的格式，不过，对于多人参与的项目来说， 好的注释风格更加有利于团队合作。 即使是自己用，也应当坚持实用好的注释风格， 一来是对自己的工作历史负责，二来得以养成好的注释习惯。 虽然这里标题说的是 Git，其他源代码控制系统也可以参考的。 </p>
-<a id="more"></a>
-
-<h2 id="Git_commit_提交注释信息的作用">Git commit 提交注释信息的作用</h2>
+        <p>在工作中，我们需要处理大量数据，查询与引用函数是非常常用一类函数，灵活的运用它们，可以提高工作效率。当需要在数据清单或表格中查找特定数值，或者需要查找某一单元格的引用时，可以使用查询和引用工作表函数。HiGrid采用简单的例子介绍这些函数的高级使用方法，非常容易理解index函数和match函数的使用方法<br><a id="more"></a> </p>
+<h2 id="MATCH函数和INDEX函数的初级用法">MATCH函数和INDEX函数的初级用法</h2>
+<p>假设有这样一个excel表格，这里将数据进行了简化，如果数据更多，<strong>index和match</strong>函数的使用方法是类似的，但多的数据更显示出match函数和index函数的威力。</p>
+<p><img src="http://i.imgur.com/tiRMKJW.png" alt="截图"></p>
+<p>现在higrid想在上图中的<code>Excel</code>数据中查找 <code>hicms</code>是什么版本，可以使用<code>vlookup</code>，相对而言 <strong>vlookup函数</strong> 更简单，当然也可以使用match函数和index函数来查找。一般是将这两个函数组合起来应用，返回列表或数组中的指定行列的值。</p>
+<p><img src="http://i.imgur.com/3ER2W50.png" alt="截图"></p>
 <ul>
-<li>加快 Reviewing Code 的过程</li>
-<li>帮助我们写好 release note</li>
-<li>N年后帮你快速想起来某个分支，tag 或者 commit 增加了什么功能，改变了哪些代码</li>
-<li>让其他的开发者在运行 git blame 的时候想跪谢</li>
-<li>总之一个好的提交信息，会帮助你提高项目的整体质量</li>
+<li>MATCH(查找值，查找范围，[查找类型])，excel帮助文件中是 Match(lookup_value,lookup_array,match_type);返回匹配的数值在数组中的位置而不是值</li>
+<li>INDEX(引用区域,行号,[列号])，excel帮助文件中是Index(Array,Row_num,Column_num);返回数组中某一行某一列的值</li>
 </ul>
-<h2 id="Git注释的基本要求">Git注释的基本要求</h2>
-<p>简而言之：第一行一句话改过你做的修改(少于50个字)、第二行空行、剩余行请描述为什么你做的这些改动是好的。</p>
-<h3 id="commit_第一行题目">commit 第一行题目</h3>
-<p>可以写成：<code>Fix issue #8976</code> (使用 fix, add, change )<br>或者：</p>
-<pre><code>    Mod: remove unused code, 表示修改（Modify）
-    Add: a new module to have faster process, 表示新增（Add）
-    Rem: deprecate unused modules, 表示移除（Remove）
-    Ref: improved the implementation of module X, 表示重构（Refactory）
-</code></pre><p>如果一个<strong>Git commit</strong> 里的内容无法用上述任意一种语句陈述，应该怎么办？那说明你的commit应该被拆分成多个小部分。 估计很多开始使用 git 的同学把握不住什么时候应该 commit， 什么时候又应该把未提交的 commits 都 push 上去，一般 ： 提交描述 = 提交的修改，这样提交的描述才精准。 git 的提交描述可以是多行的，描述的内容可以非常详细， 在不填写描述的情况下提交 git 弹出的这个对话框就介绍了这一点。</p>
-<p>因此请将每次提交限定于完成一次逻辑功能。并且可能的话，适当地分解为多次小更新，以便每次小型提交都更易于理解。commit 是一次目的性明确的改动， 但改动的地方不宜过多（否则看起来会晕）， 我们应该将一个功能分解为几个 commit， 一个 commit 负责一个部分的改动， 当这几个 commit 都完成了再 push。这样做是因为没有 push 上去的提交保存在本地， 万一有什么当时没想好的，还可以修改 （未 push 的 commit 是有办法修改的，后续文章会讲）， 要是 push 上去了，最好就不要改了， 而是用新的 commit 来弥补 （git 允许冲掉以前 push 的变更：git push -f）。照以上的建议来做的话，可以保证每个 commit 的质量，以致提高每个功能的质量。</p>
-<h3 id="commit_第三行及后续剩余行">commit 第三行及后续剩余行</h3>
-<p>永远别忘了第2行是空行。第三行开始主要回答如下信息:</p>
+<h2 id="INDEX函数使用方法">INDEX函数使用方法</h2>
+<p><strong>index函数</strong> 的解释：Array:数组 Row_num：行号 Column_num:列号 这里要说明的是，Row_num，Column_num 指的相对这个数组中的行与列，而不是相对整个Excel。 如Array=A$2:B$5 那么 1&lt;=Row_num&lt;=4,1&lt;=Column_num&lt;=2。<br>INDEX函数的功能就是返回指定单元格区域或数组常量。如果同时使用参数行号和列号，函数INDEX返回行号和列号交叉处的单元格中的值。</p>
+<p>在INDEX数组应用中：</p>
 <ol>
-<li>为什么这次修改是必要的？ 要告诉 Reviewers，你的提交包含什么改变。让他们更容易审核代码和忽略无关的改变。</li>
-<li>如何解决的问题？</li>
-<li>这些变化可能影响哪些地方？</li>
+<li>第2或第3参数数组各个数值大小和个数表示原始数据行或列方向的位置和个数；</li>
+<li>第2或第3参数字符实际位置决定原始数据位置的字符最终的行、列放置位置；</li>
+<li>第2参数为水平数组，则行列置换，第2参数为垂直数组，则行列不置换；反之，不置换。</li>
+<li>第3参数为垂直数组，则行列置换，第3参数为水平数组，则行列不置换；反之，不置换。</li>
+<li>在行列置换的情况下，第2、第3数组参数为2,1或2;1，表示将原始数据首行或首列置换为第2列或第2行；为1,2或1;2，表示将原始数据首行或首列置换为为首列或首行；</li>
+<li>当第2参数为垂直数组，则第3参数应为水平数组（换种说法就是：第2参数和第3参数分隔符必须不同），否则表格会乱，除非有特殊需要；</li>
+<li>当第2参数的数组组数和第1参数行组数相同时，第三参数数组组数就应该和第一参数的列组数相同，或者说当第2参数的数组组数和第1参数列组数相同时，第三参数数组组数就应该和第一参数的行组数相同，这样所有的原始置换数据才不会丢失；</li>
+<li>INDEX（原始数据行列数组，行组数，列组数），其中行、列组数参数携带着原始数据位置、排列转换后位置、与原始数据对应的的行列组数等信息。</li>
 </ol>
-<p>这是你最需要回答的问题。因为它会帮你发现在某个 branch 或 commit 中的做了过多的改动。一个提交尽量只做1，2个变化。 你的团队应该有一个自己的行为规则，规定每个 commit 和 branch 最多能含有多少个功能修改。用 Line break 来分割提交信息，让它在某些软件里面更容易读<br>不用 <code>git commit</code> 上增加 <code>-m &lt;msg&gt;</code> 或 <code>--message=&lt;msg&gt;</code> 参数，而单独写提交信息。 一个推荐的 commit message 应该是这样：</p>
-<pre><code>Redirect user to the requested page after login
-
-https://www.higrid.net/
-
-Users were being redirected to the home page after login, which is less
-useful than redirecting to the page they had originally requested before
-being redirected to the login form.
-
-* Store requested path in a session variable
-* Redirect to the stored location after successfully logging in the user
-</code></pre><p>注释最好包含一个连接指向你们项目的 issue/story/card。一个完整的连接比一个 issue numbers 更好<br>提交信息中包含一个简短的故事，能让别人更容易理解你的项目</p>
-<h2 id="修改已经git_commit的注释信息">修改已经git commit的注释信息</h2>
-<p>首先，使用下面这个命令来设置git默认的编辑器，其中的“editor”替换成你自己的编辑器，如Vim、Emacs、gedit、subl等：</p>
-<pre><code>git config --global core.editor &quot;editor -w&quot;
-</code></pre><p>然后，在做提交的时候使用命令不要写”-m”参数，直接写成git commit这样子就行，这样就会自动打开你刚才指定的编辑器，你可以在里面添加大段注释。 设置使用vim编辑，git config —global core.editor vim</p>
-<ul>
-<li>执行’git commit --amend’ 修改最后一次提交的信息</li>
-<li>执行’git push origin +master:master’ 强制更新远程服务器上的commit 尽量慎用此方法</li>
-</ul>
+<p>只要你对以上总结的8条规律牢记在心，那么无论置换多复杂的表格，你都可以反向层层分解，见招拆招，做到心中有数。</p>
+<h2 id="Match函数">Match函数</h2>
+<p><strong>match函数</strong> 的功能如下：<br>lookup_value,就是要寻找的值 loopup_array,与寻找的值进行匹配的数组 match_type, 匹配类型。-1代表查找大于或等于lookup_value的值；0代表查找等于lookup_value的第一个值；1代表小于或等于lookup_value的值。</p>
+<p>用起来很简单，要注意的是，比如有一列是姓名 为中文，这个Excel里面，这个中文后面会有空格，这个时候匹配的话，就有可能匹配不了解决方案是，加通配符“<em>”，就能解决这个问题。 如 Match(A1&amp;”</em>“,B$1:B$5,0);(在B1加个$符代表是绝对位置)。</p>
+<h2 id="index_match函数与vlookup的区别">index match函数与vlookup的区别</h2>
+<p>很多人也许对以上index函数和match函数的使用方法不以为然，因为使用vlookup看样子更简单，实际上index match比vlookup很多方面更胜出。</p>
+<h3 id="index_match函数效率更高">index match函数效率更高</h3>
+<p>index和match结合的一个主要优势是效率更高，因为组合不需要查找整个数组，只需要查找 <strong>1列</strong>。而vlookup需要查找整个数组，速度更慢。</p>
+<h3 id="index_match函数可以向左查找">index match函数可以向左查找</h3>
+<p>index和match结合的另一个优势是可以向左查找。<br>很多网站对excel这个非常关键的功能并没有介绍，。。。</p>
+<p>—to be continued</p>
 
       
     </div>
@@ -165,15 +151,15 @@ being redirected to the login form.
 <div class="panel panel-success">
     <div class="panel-heading" align="center">希望本站内容对您有点用处,有什么疑问或建议请在后面留言评论</div>
     <div align="center" class="panel-body">若无特别注明，本站内容均属原创,转载请注明作者(<a href="http://higrid.net">higrid</a>)和出处 <a href="http://blog.higrid.net">H!Grid博客镜像站点</a> ，请勿用于任何商业用途</div>
-    <div class="panel-body">本文链接: <a href="/posts/git-commit-skills.html">Git commit 之注释的技巧</a></div>
+    <div class="panel-body">本文链接: <a href="/posts/how-to-use-index-match-in-excel.html">excel中index match用法</a></div>
 </div></div><div class="widget" id="widget_after_content_ujian>">
 <div class="ujian-hook"></div>
 </div></section>
     
     
         <footer id="post-meta">
-        <div class="categories" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" style="display:inline">归类<span class="breadcrumb fa fa-folder"><li><a href="/categories/知识总结/" itemprop="url"><span itemprop="title" >知识总结</span></a></li></span></div> | <span class="tags">标签 <a href="/tags/git/" class="label label-primary" itemprop="url"><span itemprop="title">git</span></a></span> | <span class="time">最近更新:<time title="2014-07-05 18:56:37"datetime="2014-07-05 18:56:37"> 2014-07-05</time></span> | <span class="comment-link">
-<a href="http://blog.higrid.net/posts/git-commit-skills.html#comments" id="uyan_count_unit" su="git-commit-skills">暂无评论</a>
+        <div class="categories" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" style="display:inline">归类<span class="breadcrumb fa fa-folder"><li><a href="/categories/知识总结/" itemprop="url"><span itemprop="title" >知识总结</span></a></li></span></div> | <span class="tags">标签 <a href="/tags/excel/" class="label label-primary" itemprop="url"><span itemprop="title">excel</span></a><a href="/tags/functions/" class="label label-success" itemprop="url"><span itemprop="title">functions</span></a></span> | <span class="time">最近更新:<time title="2014-07-06 11:38:31"datetime="2014-07-06 11:38:31"> 2014-07-06</time></span> | <span class="comment-link">
+<a href="http://blog.higrid.net/posts/how-to-use-index-match-in-excel.html#comments" id="uyan_count_unit" su="how-to-use-index-match-in-excel">暂无评论</a>
 </span>
         </footer>
     
@@ -186,13 +172,11 @@ being redirected to the login form.
     <section id='after_post_widget'><div class="widget" id="widget_after_post_post_pageNav>">
 <ul class="pager">
   
-  <li class="previous"><a href="/posts/git-concise-guide-tutorial.html" title="git常用操作命令">&larr; git常用操作命令</a></li>
+  <li class="previous"><a href="/posts/the-advantage-of-vim.html" title="vim的优秀之处在哪里">&larr; vim的优秀之处在哪里</a></li>
   
-  
-  <li class="next"><a href="/posts/markdown-tools-and-resources.html" title="markdown格式在日常中的使用及转化">markdown格式在日常中的使用及转化 &rarr;</a></li>
   
 </ul></div><div class="widget" id="widget_after_post_related_posts>">
-<ul class="list-group"><li class="list-group-item"><a href="/posts/git-concise-guide-tutorial.html">git常用操作命令</a></li><li class="list-group-item"><a href="/posts/markdown-tools-and-resources.html">markdown格式在日常中的使用及转化</a></li><li class="list-group-item"><a href="/posts/how-to-use-index-match-in-excel.html">excel中index match用法</a></li><li class="list-group-item"><a href="/posts/the-advantage-of-vim.html">vim的优秀之处在哪里</a></li><li class="list-group-item"><a href="/posts/git-commit-skills.html">Git commit 之注释的技巧</a></li><li class="list-group-item"><a href="/posts/php-history-overview.html">简单明了php版本历史</a></li><li class="list-group-item"><a href="/posts/install-composer-on-windows.html">在Windows系统中安裝使用composer</a></li></ul></div></section>    
+<ul class="list-group"><li class="list-group-item"><a href="/posts/the-advantage-of-vim.html">vim的优秀之处在哪里</a></li><li class="list-group-item"><a href="/posts/how-to-use-index-match-in-excel.html">excel中index match用法</a></li><li class="list-group-item"><a href="/posts/git-commit-skills.html">Git commit 之注释的技巧</a></li><li class="list-group-item"><a href="/posts/install-composer-on-windows.html">在Windows系统中安裝使用composer</a></li><li class="list-group-item"><a href="/posts/git-concise-guide-tutorial.html">git常用操作命令</a></li><li class="list-group-item"><a href="/posts/php-history-overview.html">简单明了php版本历史</a></li><li class="list-group-item"><a href="/posts/markdown-tools-and-resources.html">markdown格式在日常中的使用及转化</a></li></ul></div></section>    
 	<div id="comments">
 <!-- UY BEGIN -->
 <div id="uyan_frame"></div>
@@ -246,7 +230,7 @@ being redirected to the login form.
   <span id='analytics-cnzz'>
 <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_3552716'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s17.cnzz.com/stat.php%3Fid%3D3552716%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
 </span>  </div>
-  <div id="copyright">Copyright &copy; 2014 嗨网在线HiGrid.net. All rights reserved.<span class="pull-right"> 最后更新时间: <em>2014-07-05 18:56:37</em></span></div>
+  <div id="copyright">Copyright &copy; 2014 嗨网在线HiGrid.net. All rights reserved.<span class="pull-right"> 最后更新时间: <em>2014-07-06 11:38:31</em></span></div>
 </div>
 <div class="clearfix"></div>
 
@@ -257,8 +241,8 @@ being redirected to the login form.
         <script src="http://cdn.staticfile.org/twitter-bootstrap/3.1.0/js/bootstrap.min.js"></script>        
             <script type="text/javascript">
 var uyan_config={
-     'url':'http://blog.higrid.net/posts/git-commit-skills.html',
-'su':'git-commit-skills'
+     'url':'http://blog.higrid.net/posts/how-to-use-index-match-in-excel.html',
+'su':'how-to-use-index-match-in-excel'
 };
 _js2load.push({src:'http://v2.uyan.cc/code/uyan.js?uid=1600048'});
 </script>
@@ -267,9 +251,9 @@ _js2load.push({src:'http://v2.uyan.cc/code/uyan.js?uid=1600048'});
             <!--wumii_relatedItems-->
 
 <script type="text/javascript">
-    var wumiiPermaLink = "http://blog.higrid.net/posts/git-commit-skills.html";
-    var wumiiTitle = "Git commit 之注释的技巧";
-    var wumiiTags = "git";
+    var wumiiPermaLink = "http://blog.higrid.net/posts/how-to-use-index-match-in-excel.html";
+    var wumiiTitle = "excel中index match用法";
+    var wumiiTags = "excel,functions";
     var wumiiCategories = ["知识总结"];
     var wumiiSitePrefix = "http://blog.higrid.net";
     var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
