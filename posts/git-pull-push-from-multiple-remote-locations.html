@@ -6,15 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Linux的查找命令find和locate命令 | H!Grid博客镜像站点</title>
+<title>git与多个远程仓库同步 | H!Grid博客镜像站点</title>
 <meta name="author" content="higrid">
 
-<meta name="description" content="日常使用电脑的时候，经常需要查找文件，find是最常见和最强大的查找命令，你可以用它找到任何你想找的文件。find是最常见和最强大的查找命令，你可以用它找到任何你想找的文件。">
+<meta name="description" content="在本地创建了一个Git仓库后，可以在GitHub上创建一个Git仓库，并且让这两个仓库进行远程同步，这样，GitHub上的仓库既可以作为备份，又可以让其他人通过该仓库来协作，真是一举多得。有时候，由于种种因素，远程仓库可能无法访问，这时候需要换一个仓库，当然最好的办法是同时与多个远程仓库同步。">
 
-<meta name="keywords" content="find教程, linux find, linux locate，linux查找命令">
+<meta name="keywords" content="git多仓库">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<meta property="og:title" content="Linux的查找命令find和locate命令"/>
+<meta property="og:title" content="git与多个远程仓库同步"/>
 <meta property="og:site_name" content="H!Grid博客镜像站点"/>
 
 <!--[if IE]><style>.testIE.IE{display:inline;}</style><![endif]-->
@@ -100,87 +100,42 @@
   <div class="post-content">
     <header class="well-sm">
       <i class="fa icon fa-5x pull-left"></i>
-      <h1 class="title">Linux的查找命令find和locate命令</h1>
+      <h1 class="title">git与多个远程仓库同步</h1>
       
-        <span>发表于<time datetime="2014-07-15T13:17:27.000Z"> <a href="/posts/linux-search-files.html">2014-07-15</a></time></span>      
+        <span>发表于<time datetime="2014-07-19T14:37:21.000Z"> <a href="/posts/git-pull-push-from-multiple-remote-locations.html">2014-07-19</a></time></span>      
     </header>
     
     <section id='before_content_widget'></section>
     <div class="entry">
       
-        <p>日常使用电脑的时候，经常需要查找文件，find是最常见和最强大的查找命令，你可以用它找到任何你想找的文件。find是最常见和最强大的查找命令，你可以用它找到任何你想找的文件。</p>
-<h2 id="linux中的find命令">linux中的find命令</h2>
-<p>find命令功能强大切易用，但是一般时候我们能不用就不用，尤其譬如你的服务器负载正跑高的时候，他对CPU和内存的消耗是很大的，但是find的命令非常强大，所以我们必须还待学会。</p>
-<p><a id="more"></a> </p>
-<h3 id="find_-name">find -name</h3>
-<pre><code>&gt;find /etc -name host?
-#输出 /etc/hosts 其中？作为占位符使用
+        <p>在本地创建了一个Git仓库后，可以在GitHub上创建一个Git仓库，并且让这两个仓库进行远程同步，这样，GitHub上的仓库既可以作为备份，又可以让其他人通过该仓库来协作，真是一举多得。有时候，由于种种因素，远程仓库可能无法访问，这时候需要换一个仓库，当然最好的办法是同时与多个远程仓库同步。</p>
+<h2 id="已有项目更换远程仓库">已有项目更换远程仓库</h2>
+<p>更换一个远程仓库直接敲代码：</p>
+<pre><code>git remote add origin 远程仓库
+</code></pre><p><a id="more"></a><br>但一般会出现错误<strong>fatal: remote origin already exists</strong>。解决办法是先删掉</p>
+<pre><code>$ git remote rm origin
+</code></pre><p>也可以采用直接修改config文件的方法, 首先, 显示隐藏文件, 进入 .git/ 目录, 目录下面有一个config文件, 以文本文件方式打开该文件, 在后面添加</p>
+<pre><code>[remote &quot;origin&quot;]
+url = 新地址
+</code></pre><p>即可。</p>
+<p>有时候仍然由错误，可以改个名字。然后使用<code>git remote -v</code>命令查看。</p>
+<pre><code>$ git remote add oschina http://git.oschina.net/sheyi.git
+$ git push oschina master
 
-&gt;find /etc -name host*
-#这里的*号匹配任意字符
-/etc/hosts
-/etc/hosts.allow
-/etc/init.d/hostname
-/etc/hosts.deny
-/etc/host.conf
-/etc/init/hostname.conf
-/etc/hostname
-</code></pre><h3 id="find_-iname">find -iname</h3>
-<pre><code>&gt;find /etc -iname host* # -iname是忽略大小写，跟我们编程语言中的模式修正符i效果是一样的
-</code></pre><h3 id="find_-size">find -size</h3>
-<pre><code>&gt;find ./ -size (+大于） （-小于） （无符号就是等于）
-#别被坑了哈 最小是512byte 所以要查找1M size就是2048
-</code></pre><h3 id="用户群组查找">用户群组查找</h3>
-<pre><code>&gt;find ./ -user root       #查找用户root的文件
-&gt;find ./ -group root      #查找用户组的文件
-</code></pre><h3 id="文件时间属性查找">文件时间属性查找</h3>
-<pre><code>#- 在多少分钟内 + 大于多长时间
-&gt;find ./ -amin -5  #5分钟内访问时间改变的
-&gt;find ./ -cmin -5  #5分钟内文件属性改变的
-&gt;find ./ -mmin +5  #大于5分钟的文件内容被改变
-</code></pre><h3 id="多语句查询">多语句查询</h3>
-<pre><code>-a                 满足几个条件
--o                 满足一个就可以了
+$ git remote -v
+origin    https://github.com/sheyi/higrid.git (fetch)
+origin    https://github.com/sheyi/higrid.git (push)
+oschina    http://git.oschina.net/sheyi/higrid.git (fetch)
+oschina    http://git.oschina.net/sheyi/higrid.git (push)
+</code></pre><p>这里将‘<code>orign</code>换成了‘<code>oschina</code>，然后在push到oschina时也是一样。</p>
+<h2 id="Git同时push到多个仓库">Git同时push到多个仓库</h2>
+<p>为防止一个git仓库由于各种原因造成无法访问，可以将代码push到多个仓库。 编辑本地仓库目录下面的.git目录下的config文件。</p>
+<p>添加：</p>
+<pre><code>[remote &quot;two&quot;]
+url = git@github.com:sheyi/higrid.git
+url = git@gitcafe.com:sheyi/higrid.git
+</code></pre><p>再push时，运行<code>git push tow master</code></p>
 
--exec 命令  {} \;        搜素执行操作
-</code></pre><h3 id="类型查找">类型查找</h3>
-<pre><code>-type [-f 文件] [-d 目录] [-l 软链接]
-
--inum 根据inode节点号查找
-
--perm 按照文件权限来查找文件
-</code></pre><h3 id="其它">其它</h3>
-<pre><code> -nogroup 查找无有效所属组的文件，即该文件所属的组在/etc/groups中不存在
-  -nouser 在/etc/passwd中不存在
- -mount 在查找文件时不跨越文件系统mount点
-</code></pre><h2 id="linux中的locate命令">linux中的locate命令</h2>
-<p>这个速度非常快，因为它有自己的文件库，所以我们建议使用locate，但是缺点是你创新的文件如果文件库没有更新就查找不到。 locate命令其实是”find -name”的另一种写法，但是要比后者快得多，原因在于它不搜索具体目录，而是搜索一个数据库（/var/lib/locatedb），这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次，所以使用locate命令查不到最新变动过的文件。为了避免这种情况，可以在使用locate之前，先使用updatedb命令，手动更新数据库。</p>
-<pre><code>&gt;locate hosts
-
-#下边就出来了
-/etc/hosts
-/lib/x86_64-linux-gnu/security/pam_rhosts.so
-/usr/share/man/man5/hosts.5.gz
-/usr/share/man/man5/hosts.equiv.5.gz
-/usr/share/man/man8/pam_rhosts.8.gz
-/usr/share/vim/vim73/ftplugin/denyhosts.vim
-/usr/share/vim/vim73/ftplugin/hostsaccess.vim
-/usr/share/vim/vim73/syntax/denyhosts.vim
-/usr/share/vim/vim73/syntax/hostsaccess.vim
-
-&gt;updatedb           #更新文件库
-</code></pre><h2 id="which和whereis">which和whereis</h2>
-<p>which命令的作用是，在PATH变量指定的路径中，搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令，就可以看到某个系统命令是否存在，以及执行的到底是哪一个位置的命令。 查找命令使用，譬如/bin/ /usr/bin 如果你是管理员，还能出来/sbin/usr/bin/<br>whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s）。如果省略参数，则返回所有信息。</p>
-<pre><code>#查找命令和alias
-&gt;which ls
-#/bin/ls
-
-grep [-i 不区分大小写] [-v 排除制定字符串]       #文件中字符串查找 我们以后正则的时候详细介绍
-
-#可以查找到命令和帮助文档
-&gt;whereis ls
-#ls: /bin/ls /usr/share/man/man1/ls.1.gz
-</code></pre>
       
     </div>
     <section id='after_content_widget'><div class="widget" id="widget_after_content_wumiiRelatedItems>">
@@ -189,15 +144,15 @@ grep [-i 不区分大小写] [-v 排除制定字符串]       #文件中字符�
 <div class="panel panel-success">
     <div class="panel-heading" align="center">希望本站内容对您有点用处,有什么疑问或建议请在后面留言评论</div>
     <div align="center" class="panel-body">若无特别注明，本站内容均属原创,转载请注明作者(<a href="http://higrid.net">higrid</a>)和出处 <a href="http://blog.higrid.net">H!Grid博客镜像站点</a> ，请勿用于任何商业用途</div>
-    <div class="panel-body">本文链接: <a href="/posts/linux-search-files.html">Linux的查找命令find和locate命令</a></div>
+    <div class="panel-body">本文链接: <a href="/posts/git-pull-push-from-multiple-remote-locations.html">git与多个远程仓库同步</a></div>
 </div></div><div class="widget" id="widget_after_content_ujian>">
 <div class="ujian-hook"></div>
 </div></section>
     
     
         <footer id="post-meta">
-        <div class="categories" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" style="display:inline">归类<span class="breadcrumb fa fa-folder"><li><a href="/categories/知识总结/" itemprop="url"><span itemprop="title" >知识总结</span></a></li></span></div> | <span class="tags">标签 <a href="/tags/linux/" class="label label-primary" itemprop="url"><span itemprop="title">linux</span></a><a href="/tags/教程/" class="label label-success" itemprop="url"><span itemprop="title">教程</span></a></span> | <span class="time">最近更新:<time title="2014-07-15 18:17:47"datetime="2014-07-15 18:17:47"> 2014-07-15</time></span> | <span class="comment-link">
-<a href="http://blog.higrid.net/posts/linux-search-files.html#comments" id="uyan_count_unit" su="linux-search-files">暂无评论</a>
+        <div class="categories" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" style="display:inline">归类<span class="breadcrumb fa fa-folder"><li><a href="/categories/知识总结/" itemprop="url"><span itemprop="title" >知识总结</span></a></li></span></div> | <span class="tags">标签 <a href="/tags/git/" class="label label-primary" itemprop="url"><span itemprop="title">git</span></a><a href="/tags/教程/" class="label label-success" itemprop="url"><span itemprop="title">教程</span></a></span> | <span class="time">最近更新:<time title="2014-07-19 19:37:46"datetime="2014-07-19 19:37:46"> 2014-07-19</time></span> | <span class="comment-link">
+<a href="http://blog.higrid.net/posts/git-pull-push-from-multiple-remote-locations.html#comments" id="uyan_count_unit" su="git-pull-push-from-multiple-remote-locations">暂无评论</a>
 </span>
         </footer>
     
@@ -210,13 +165,11 @@ grep [-i 不区分大小写] [-v 排除制定字符串]       #文件中字符�
     <section id='after_post_widget'><div class="widget" id="widget_after_post_post_pageNav>">
 <ul class="pager">
   
-  <li class="previous"><a href="/posts/git-pull-push-from-multiple-remote-locations.html" title="git与多个远程仓库同步">&larr; git与多个远程仓库同步</a></li>
   
-  
-  <li class="next"><a href="/posts/php-func-constant-define.html" title="php常量的说明">php常量的说明 &rarr;</a></li>
+  <li class="next"><a href="/posts/linux-search-files.html" title="Linux的查找命令find和locate命令">Linux的查找命令find和locate命令 &rarr;</a></li>
   
 </ul></div><div class="widget" id="widget_after_post_related_posts>">
-<ul class="list-group"><li class="list-group-item"><a href="/posts/install-composer-on-windows.html">在Windows系统中安裝使用composer</a></li><li class="list-group-item"><a href="/posts/php-func-constant-define.html">php常量的说明</a></li><li class="list-group-item"><a href="/posts/linux-basic-command.html">linux基础教程及常用配置</a></li><li class="list-group-item"><a href="/posts/the-advantage-of-vim.html">vim的优秀之处在哪里</a></li><li class="list-group-item"><a href="/posts/markdown-tools-and-resources.html">markdown格式在日常中的使用及转化</a></li><li class="list-group-item"><a href="/posts/php-history-overview.html">简单明了php版本历史</a></li><li class="list-group-item"><a href="/posts/linux-search-files.html">Linux的查找命令find和locate命令</a></li><li class="list-group-item"><a href="/posts/git-concise-guide-tutorial.html">git常用操作命令</a></li></ul></div></section>    
+<ul class="list-group"><li class="list-group-item"><a href="/posts/linux-basic-command.html">linux基础教程及常用配置</a></li><li class="list-group-item"><a href="/posts/markdown-tools-and-resources.html">markdown格式在日常中的使用及转化</a></li><li class="list-group-item"><a href="/posts/the-advantage-of-vim.html">vim的优秀之处在哪里</a></li><li class="list-group-item"><a href="/posts/php-func-constant-define.html">php常量的说明</a></li><li class="list-group-item"><a href="/posts/php-history-overview.html">简单明了php版本历史</a></li><li class="list-group-item"><a href="/posts/git-pull-push-from-multiple-remote-locations.html">git与多个远程仓库同步</a></li><li class="list-group-item"><a href="/posts/git-concise-guide-tutorial.html">git常用操作命令</a></li><li class="list-group-item"><a href="/posts/install-composer-on-windows.html">在Windows系统中安裝使用composer</a></li></ul></div></section>    
 	<div id="comments">
 <!-- UY BEGIN -->
 <div id="uyan_frame"></div>
@@ -270,7 +223,7 @@ grep [-i 不区分大小写] [-v 排除制定字符串]       #文件中字符�
   <span id='analytics-cnzz'>
 <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_3552716'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s17.cnzz.com/stat.php%3Fid%3D3552716%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
 </span>  </div>
-  <div id="copyright">Copyright &copy; 2014 嗨网在线HiGrid.net. All rights reserved.<span class="pull-right"> 最后更新时间: <em>2014-07-15 18:17:47</em></span></div>
+  <div id="copyright">Copyright &copy; 2014 嗨网在线HiGrid.net. All rights reserved.<span class="pull-right"> 最后更新时间: <em>2014-07-19 19:37:46</em></span></div>
 </div>
 <div class="clearfix"></div>
 
@@ -281,8 +234,8 @@ grep [-i 不区分大小写] [-v 排除制定字符串]       #文件中字符�
         <script src="http://cdn.staticfile.org/twitter-bootstrap/3.1.0/js/bootstrap.min.js"></script>        
             <script type="text/javascript">
 var uyan_config={
-     'url':'http://blog.higrid.net/posts/linux-search-files.html',
-'su':'linux-search-files'
+     'url':'http://blog.higrid.net/posts/git-pull-push-from-multiple-remote-locations.html',
+'su':'git-pull-push-from-multiple-remote-locations'
 };
 _js2load.push({src:'http://v2.uyan.cc/code/uyan.js?uid=1600048'});
 </script>
@@ -291,9 +244,9 @@ _js2load.push({src:'http://v2.uyan.cc/code/uyan.js?uid=1600048'});
             <!--wumii_relatedItems-->
 
 <script type="text/javascript">
-    var wumiiPermaLink = "http://blog.higrid.net/posts/linux-search-files.html";
-    var wumiiTitle = "Linux的查找命令find和locate命令";
-    var wumiiTags = "linux,教程";
+    var wumiiPermaLink = "http://blog.higrid.net/posts/git-pull-push-from-multiple-remote-locations.html";
+    var wumiiTitle = "git与多个远程仓库同步";
+    var wumiiTags = "git,教程";
     var wumiiCategories = ["知识总结"];
     var wumiiSitePrefix = "http://blog.higrid.net";
     var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
